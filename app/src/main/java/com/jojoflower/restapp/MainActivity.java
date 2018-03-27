@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -57,22 +58,25 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             InputStream in = null;
+            String jsonString = null;
             try {
                 in = new BufferedInputStream(urlConnection.getInputStream());
+                jsonString = readStream(in);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 urlConnection.disconnect();
             }
 
+            jsonString = jsonString.substring(15, -1);
             JSONObject json = null;
             try {
-                json = new JSONObject(in.toString());
+                json = new JSONObject(jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            ArrayList items = null;
+            ArrayList<String> items = null;
             try {
                 items = new json.get("items");
             } catch (JSONException e) {
@@ -85,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
             int numberImage = items.size();
             for (int i = 0; i < numberImage; i++) {
                 images.add(new MyImage(items.get(i).toString(), items.getString()));
+            }
+        }
+
+        private String readStream(InputStream is) {
+            try {
+                ByteArrayOutputStream bo = new ByteArrayOutputStream();
+                int i = is.read();
+                while(i != -1) {
+                    bo.write(i);
+                    i = is.read();
+                }
+                return bo.toString();
+            } catch (IOException e) {
+                return "";
             }
         }
     }
