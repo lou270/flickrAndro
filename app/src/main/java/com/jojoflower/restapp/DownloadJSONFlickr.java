@@ -2,6 +2,7 @@ package com.jojoflower.restapp;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -34,7 +35,8 @@ public class DownloadJSONFlickr extends AsyncTask<String, Integer, JSONObject> {
         URL url = null;
         InputStream in = null;
         HttpURLConnection urlConnection = null;
-        String rawJson = null;
+        String rawJson = "";
+
         try {
             url = new URL(strings[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -46,7 +48,7 @@ public class DownloadJSONFlickr extends AsyncTask<String, Integer, JSONObject> {
             while((bytesRead = in.read(content)) != -1) {
                 rawJson += new String(content, 0, bytesRead);
             }
-
+            //Log.i("DEBUG", rawJson);
             rawJson = rawJson.substring("jsonFlickrFeed(".length(), rawJson.length()-1);
 
         } catch (MalformedURLException e) {
@@ -58,12 +60,16 @@ public class DownloadJSONFlickr extends AsyncTask<String, Integer, JSONObject> {
             urlConnection.disconnect();
         }
 
+        //Log.i("DEBUG", rawJson);
+
         JSONObject json = null;
         try {
             json = new JSONObject(rawJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        //Log.i("DEBUG", json.toString());
 
         return json;
     }
@@ -77,7 +83,11 @@ public class DownloadJSONFlickr extends AsyncTask<String, Integer, JSONObject> {
             JSONArray jsonItems = json.getJSONArray("items");
             for(int i = 0; i < jsonItems.length(); i++){
                 JSONObject item = jsonItems.getJSONObject(i);
-                tab.add(new MyImage(item.getString("title"), item.getJSONObject("media").getString("m")));
+                MyImage img = new MyImage(item.getString("title"), item.getJSONObject("media").getString("m"));
+                tab.add(img);
+
+                DownloadImage dlIMG = new DownloadImage(img, tab);
+                dlIMG.execute(img.getUrl());
             }
             tab.notifyDataSetChanged();
 

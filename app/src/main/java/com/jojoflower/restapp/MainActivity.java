@@ -2,6 +2,7 @@ package com.jojoflower.restapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,14 +18,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getDataFlickr();
+        getDataFlickr("cats");
     }
 
-    public void getDataFlickr() {
+    private void getDataFlickr(String tags) {
         DownloadJSONFlickr task = new DownloadJSONFlickr(MainActivity.this);
-        EditText et = findViewById(R.id.categorieText);
-        String tagURL = (et.getText().toString()).replace(" ", "+");
+        tags = tags.replace(" ", "+");
+        task.execute("https://www.flickr.com/services/feeds/photos_public.gne?tags="+tags+"&format=json");
+    }
 
-        task.execute("https://www.flickr.com/services/feeds/photos_public.gne?tags="+tagURL+"&format=json");
+    public void btnClick(View v) {
+        EditText ev = findViewById(R.id.categorieText);
+        getDataFlickr(ev.getText().toString());
     }
 }
