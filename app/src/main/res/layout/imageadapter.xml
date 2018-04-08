@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="10dp" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/textViewList"
@@ -10,6 +15,7 @@
     <ImageView
         android:id="@+id/imageViewList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:contentDescription="TODO"/>
+        android:layout_height="150dp"
+        android:contentDescription="TODO" />
 
 </LinearLayout>

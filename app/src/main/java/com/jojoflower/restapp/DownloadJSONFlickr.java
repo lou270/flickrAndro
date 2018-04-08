@@ -3,7 +3,10 @@ package com.jojoflower.restapp;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,6 +81,13 @@ public class DownloadJSONFlickr extends AsyncTask<String, Integer, JSONObject> {
         ListView lv = (ListView)_mainActivity.findViewById(R.id.listViewImage);
         ImageAdapter tab = new ImageAdapter(lv.getContext(), new ArrayList<MyImage>());
         lv.setAdapter(tab);
+        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(_mainActivity.getApplicationContext(), "Sauvegardé en favori", Toast.LENGTH_SHORT).show();
+                adapterView.getItemAtPosition(i);
+            }
+        });*/
 
         try {
             JSONArray jsonItems = json.getJSONArray("items");
