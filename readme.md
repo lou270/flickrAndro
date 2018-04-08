@@ -3,7 +3,7 @@
 * Choix du tags à rechercher par l'utilisateur
 
 Deux classes dérivant d'AsyncTask : 
-* **DownloadJSONFlickr** : recupère le JSON de Flickr et lance autant d'instances  de DownloadImage qu'il y a d'image répétorier dans le JSON
+* **DownloadJSONFlickr** : recupère le JSON de Flickr et lance autant d'instance de DownloadImage qu'il y a d'image répétoriée dans le JSON
 * **DownloadImage** :  Télécharge une image et l'ajoute à l'objet MyImage
 La ListView se charge ensuite de l'affichage des données
 
